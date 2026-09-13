@@ -1,0 +1,42 @@
+{
+  "kind": "audio_record",
+  "title": "Audio Record",
+  "ports": {
+    "inputs": [],
+    "outputs": [
+      {
+        "id": 1,
+        "name": "audio_path",
+        "title": "Audio",
+        "emits": ["file/path", "audio/*", "message/*"],
+        "multiplicity": "many"
+      },
+      {
+        "id": 2,
+        "name": "metadata",
+        "title": "Metadata",
+        "emits": ["application/json", "message/*"],
+        "multiplicity": "many"
+      }
+    ]
+  },
+  "config": {
+    "output_dir": "exports/audio",
+    "target_format": "native",
+    "filename_template": "audio_{node_id}_{timestamp}",
+    "max_duration_sec": 120,
+    "latest_audio_path": "",
+    "latest_audio_mime": "",
+    "latest_audio_duration_ms": 0,
+    "latest_audio_size_bytes": 0,
+    "latest_audio_at": "",
+    "capture_source": "browser"
+  },
+  "runtime": {
+    "initial_state": "ready",
+    "runtime_executable": true,
+    "active_worker": true,
+    "generic_source": true,
+    "centralized_executor": "generic"
+  }
+}

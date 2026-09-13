@@ -1,0 +1,12 @@
+.audio-record-mini-card {
+  gap: 4px;
+}
+
+.audio-record-mini-card span {
+  max-width: 100%;
+  overflow: hidden;
+  color: rgba(15, 23, 42, 0.62);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

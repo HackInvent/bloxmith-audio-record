@@ -1,0 +1,87 @@
+<div class="cw-block-inspector cw-audio-record-inspector" data-block-inspector-root data-node-id="{{ node_id }}" data-node-type="{{ node_type }}">
+  <div class="inspector-selection {{ summary_hidden }}" data-node-type="{{ node_type }}">
+    <div class="inspector-node-card">
+      <div class="inspector-node-icon">MIC</div>
+      <div class="inspector-node-copy">
+        <strong>{{ node_title }}</strong>
+        <span>{{ node_kind }}</span>
+      </div>
+      <span class="inspector-node-tag">{{ node_tag }}</span>
+    </div>
+    <div class="inspector-tabs">
+      <button class="inspector-tab {{ general_active }}" data-inspector-tab="general" type="button">General</button>
+      <button class="inspector-tab {{ ports_active }} {{ ports_tab_hidden }}" data-inspector-tab="ports" type="button" {{ ports_tab_disabled }}>Ports</button>
+    </div>
+  </div>
+
+  <div class="inspector-view {{ general_hidden }}" data-inspector-panel-tab="general">
+    <div class="field-group {{ title_hidden }}">
+      <label>Nom du node</label>
+      <input data-node-title-input type="text" placeholder="{{ node_title_placeholder }}" value="{{ node_title }}" />
+    </div>
+    <div class="inspector-actions {{ actions_hidden }}">
+      <button class="ghost-btn {{ duplicate_hidden }}" data-block-action="duplicate" type="button">Dupliquer</button>
+      <button class="danger-btn {{ delete_hidden }}" data-block-action="delete" type="button">Supprimer le bloc</button>
+    </div>
+    <p class="inspector-copy">
+      Enregistre un audio depuis le micro du navigateur via le modal, puis publie le dernier fichier capture.
+    </p>
+    <div class="field-group">
+      <label>Dossier de sortie</label>
+      <input data-block-config-field="output_dir" type="text" value="{{ output_dir }}" placeholder="exports/audio" spellcheck="false" />
+    </div>
+    <div class="field-grid">
+      <div class="field-group">
+        <label>Format cible</label>
+        <select data-block-config-field="target_format">
+          <option value="native" {{ target_format_native_selected }}>Natif</option>
+          <option value="webm" {{ target_format_webm_selected }}>WebM</option>
+          <option value="mp3" {{ target_format_mp3_selected }}>MP3</option>
+          <option value="m4a" {{ target_format_m4a_selected }}>M4A</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Duree max (s)</label>
+        <input data-block-config-field="max_duration_sec" data-block-value-type="integer" type="number" min="1" max="3600" step="1" value="{{ max_duration_sec }}" />
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Nom fichier</label>
+      <input data-block-config-field="filename_template" type="text" value="{{ filename_template }}" placeholder="audio_{node_id}_{timestamp}" spellcheck="false" />
+    </div>
+    <div class="field-group {{ latest_audio_hidden }}">
+      <label>Dernier audio</label>
+      <input readonly type="text" value="{{ latest_audio_value }}" spellcheck="false" />
+    </div>
+    <div class="field-group {{ latest_audio_hidden }}">
+      <label>Details</label>
+      <input readonly type="text" value="{{ latest_audio_duration }} - {{ latest_audio_size }} - {{ latest_audio_at }}" spellcheck="false" />
+    </div>
+    <div class="inspector-actions">
+      <button class="solid-btn" data-block-apply type="button" disabled>Appliquer</button>
+    </div>
+  </div>
+
+  <div class="inspector-view {{ ports_hidden }}" data-inspector-panel-tab="ports">
+    <div class="ports-editor-section">
+      <div class="ports-editor-header">
+        <span class="group-label">Entrees</span>
+        <span class="ports-editor-actions">
+          <button class="ghost-btn add-port-btn {{ add_mcp_input_hidden }}" data-add-mcp-input-port type="button" {{ add_mcp_input_disabled }}>+ MCP</button>
+          <button class="ghost-btn add-port-btn {{ add_input_hidden }}" data-add-input-port type="button" {{ add_input_disabled }}>+ Ajouter une entree</button>
+        </span>
+      </div>
+      <div class="ports-editor-list">{{ inputs_html }}</div>
+    </div>
+    <div class="ports-editor-section">
+      <div class="ports-editor-header">
+        <span class="group-label">Sorties</span>
+        <button class="ghost-btn add-port-btn {{ add_output_hidden }}" data-add-output-port type="button" {{ add_output_disabled }}>+ Ajouter une sortie</button>
+      </div>
+      <div class="ports-editor-list">{{ outputs_html }}</div>
+    </div>
+    <div class="inspector-copy">
+      Les noms sont normalises automatiquement : minuscules, espaces remplaces par <code>_</code>, 20 caracteres maximum.
+    </div>
+  </div>
+</div>

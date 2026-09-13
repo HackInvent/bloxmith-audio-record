@@ -1,0 +1,80 @@
+<div class="modal-panel cw-audio-record-modal" role="dialog" aria-modal="true" aria-labelledby="{{ node_id }}BlockModalTitle" data-generic-block-modal-root data-block-runtime-refresh="autonomous" data-node-id="{{ node_id }}" data-node-kind="{{ node_kind }}">
+  <div class="modal-header">
+    <div>
+      <span class="panel-kicker">Bloc {{ node_kind_title }}</span>
+      <h2 id="{{ node_id }}BlockModalTitle">{{ node_title }}</h2>
+    </div>
+    <div class="modal-actions">
+      <button class="ghost-btn" data-close-block-modal type="button">Fermer</button>
+    </div>
+  </div>
+
+  <div class="audio-record-modal-body">
+    <section class="audio-record-modal-section">
+      <div class="ports-editor-header"><span class="group-label">Capture audio</span></div>
+      <p class="inspector-copy">
+        Maintenir le bouton pour parler. Le navigateur capture le micro, puis le bloc enregistre le fichier cote serveur.
+      </p>
+      <div class="audio-record-capture" data-audio-record-capture>
+        <button class="solid-btn audio-record-talk-button" data-audio-record-hold type="button">Maintenir pour parler</button>
+        <button class="ghost-btn" data-audio-record-stop type="button" disabled>Arreter</button>
+        <p class="inspector-copy audio-record-status" data-audio-record-status>{{ latest_audio_path }}</p>
+      </div>
+    </section>
+
+    <section class="audio-record-modal-section">
+      <div class="ports-editor-header"><span class="group-label">Parametres</span></div>
+      <div class="field-grid">
+        <div class="field-group">
+          <label>Dossier de sortie</label>
+          <input data-block-config-field="output_dir" type="text" value="{{ output_dir }}" placeholder="exports/audio" spellcheck="false" />
+        </div>
+        <div class="field-group">
+          <label>Format cible</label>
+          <select data-block-config-field="target_format">
+            <option value="native" {{ target_format_native_selected }}>Natif navigateur</option>
+            <option value="webm" {{ target_format_webm_selected }}>WebM</option>
+            <option value="mp3" {{ target_format_mp3_selected }}>MP3 via ffmpeg</option>
+            <option value="m4a" {{ target_format_m4a_selected }}>M4A via ffmpeg</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Nom fichier</label>
+          <input data-block-config-field="filename_template" type="text" value="{{ filename_template }}" placeholder="audio_{node_id}_{timestamp}" spellcheck="false" />
+        </div>
+        <div class="field-group">
+          <label>Duree max (s)</label>
+          <input data-block-config-field="max_duration_sec" data-block-value-type="integer" type="number" min="1" max="3600" step="1" value="{{ max_duration_sec }}" />
+        </div>
+        <div class="field-group {{ latest_audio_hidden }}">
+          <label>Dernier audio</label>
+          <input readonly type="text" value="{{ latest_audio_value }}" spellcheck="false" />
+        </div>
+        <div class="field-group {{ latest_audio_hidden }}">
+          <label>Details</label>
+          <input readonly type="text" value="{{ latest_audio_duration }} - {{ latest_audio_size }} - {{ latest_audio_at }}" spellcheck="false" />
+        </div>
+      </div>
+    </section>
+
+    <section class="audio-record-modal-section">
+      <div class="ports-editor-header"><span class="group-label">Identite</span></div>
+      {{ title_field_html }}
+    </section>
+
+    <section class="audio-record-modal-section">
+      <div class="ports-editor-header"><span class="group-label">Ports</span></div>
+      {{ ports_html }}
+    </section>
+
+    <section class="audio-record-modal-section">
+      <div class="ports-editor-header"><span class="group-label">Dernier etat</span></div>
+      {{ runtime_html }}
+    </section>
+  </div>
+
+  <div class="modal-actions audio-record-modal-footer">
+    <button class="ghost-btn" data-close-block-modal type="button">Annuler</button>
+    <button class="solid-btn" data-block-apply type="button" disabled>Appliquer</button>
+  </div>
+</div>
