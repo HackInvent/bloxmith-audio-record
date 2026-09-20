@@ -5,7 +5,7 @@
       <h2 id="{{ node_id }}BlockModalTitle">{{ node_title }}</h2>
     </div>
     <div class="modal-actions">
-      <button class="ghost-btn" data-close-block-modal type="button">Fermer</button>
+      <button class="ghost-btn" data-close-block-modal type="button">Close</button>
     </div>
   </div>
 
@@ -13,7 +13,7 @@
     <section class="audio-record-modal-section">
       <div class="ports-editor-header"><span class="group-label">Capture audio</span></div>
       <p class="inspector-copy">
-        Maintenir le bouton pour parler. Le navigateur capture le micro, puis le bloc enregistre le fichier cote serveur.
+        Hold the button to speak. The browser captures the microphone, then the block writes the file on the server.
       </p>
       <div class="audio-record-capture" data-audio-record-capture>
         <button class="solid-btn audio-record-talk-button" data-audio-record-hold type="button">Maintenir pour parler</button>
@@ -26,7 +26,7 @@
       <div class="ports-editor-header"><span class="group-label">Parametres</span></div>
       <div class="field-grid">
         <div class="field-group">
-          <label>Dossier de sortie</label>
+          <label>Output folder</label>
           <input data-block-config-field="output_dir" type="text" value="{{ output_dir }}" placeholder="exports/audio" spellcheck="false" />
         </div>
         <div class="field-group">
@@ -39,7 +39,7 @@
           </select>
         </div>
         <div class="field-group">
-          <label>Nom fichier</label>
+          <label>File name</label>
           <input data-block-config-field="filename_template" type="text" value="{{ filename_template }}" placeholder="audio_{node_id}_{timestamp}" spellcheck="false" />
         </div>
         <div class="field-group">
@@ -74,7 +74,7 @@
   </div>
 
   <div class="modal-actions audio-record-modal-footer">
-    <button class="ghost-btn" data-close-block-modal type="button">Annuler</button>
-    <button class="solid-btn" data-block-apply type="button" disabled>Appliquer</button>
+    <button class="ghost-btn" data-close-block-modal type="button">Cancel</button>
+    <button class="solid-btn" data-block-apply type="button" disabled>Apply</button>
   </div>
 </div>

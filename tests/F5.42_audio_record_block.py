@@ -179,7 +179,7 @@ def main() -> None:
     expect('data-block-config-field="max_duration_sec"' in modal["html"], "Modal must expose max duration.")
 
     with isolated_server() as server:
-        # Les surfaces sont des assets de release : le bundled kind n'en sert aucun.
+        # Surfaces are release assets: a bundled kind serves none of them.
         model = install_test_package(server, "audio_record")
         key = quote(release_key(model), safe="")
         served = lambda payload, suffix: next(
@@ -203,7 +203,7 @@ def main() -> None:
         with urlopen(f"{server.base_url}/api/blocks/{key}/assets/{served(node_card_rendered, 'assets/js/node_card.js')}", timeout=5) as response:
             node_card_js = response.read().decode("utf-8")
         expect("data-audio-record-card-hold" in node_card_js, "Node-card JS must bind the card hold button.")
-        expect("export function mount" in node_card_js, "Le module carte doit exporter son point de montage.")
+        expect("export function mount" in node_card_js, "The card module must export its mount entrypoint.")
         expect("Run absent" in node_card_js, "Node-card JS must warn when no active runtime receives the recording.")
 
         applied = http_json(
