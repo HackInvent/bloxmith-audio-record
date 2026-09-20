@@ -38,6 +38,8 @@ from blocs import get_block_definition
 from bloxsmith_app.block_runtime import BlockRuntimeContext
 from bloxsmith_app.port_types import APPLICATION_JSON, FILE_PATH
 from ui_smoke_common import create_project_api, create_run_api, expect, http_json, isolated_server, wait_for_run_predicate, wait_for_run_terminal
+from urllib.parse import quote
+from block_test_packages import install_test_package, release_key, surface_payload
 
 
 AUDIO_BYTES = b"browser audio webm bytes"
@@ -177,38 +179,31 @@ def main() -> None:
     expect('data-block-config-field="max_duration_sec"' in modal["html"], "Modal must expose max duration.")
 
     with isolated_server() as server:
+        # Les surfaces sont des assets de release : le bundled kind n'en sert aucun.
+        model = install_test_package(server, "audio_record")
+        key = quote(release_key(model), safe="")
+        served = lambda payload, suffix: next(
+            asset["path"] for asset in payload["assets"] if asset["path"].endswith(suffix))
         node = block.build_node_payload(
             node_id="audio-record-1",
             config_overrides={"output_dir": "exports/audio-api", "target_format": "native"},
         )
-        rendered = http_json(server.base_url, "/api/blocks/audio_record/modal", method="POST", payload={"node": node})
+        rendered = surface_payload(server, model, node, "modal")
         assets = rendered.get("assets") or []
-        expect(
-            {"kind": "js", "path": "assets/js/recorder.js"} in assets,
-            "Audio modal must declare its shared browser recording JS helper.",
-        )
-        expect(
-            {"kind": "js", "path": "assets/js/block_modal.js"} in assets,
-            "Audio modal must declare its browser recording JS asset.",
-        )
-        with urlopen(f"{server.base_url}/api/blocks/audio_record/assets/assets/js/recorder.js", timeout=5) as response:
+        with urlopen(f"{server.base_url}/api/blocks/{key}/assets/{served(rendered, 'assets/js/recorder.js')}", timeout=5) as response:
             recorder_body = response.read().decode("utf-8")
         expect("MediaRecorder" in recorder_body, "Recorder helper must use MediaRecorder.")
         expect("getUserMedia" in recorder_body, "Recorder helper must request the browser microphone.")
         expect('applyAction("save_browser_audio"' in recorder_body, "Recorder helper must call the block UI action.")
-        with urlopen(f"{server.base_url}/api/blocks/audio_record/assets/assets/js/block_modal.js", timeout=5) as response:
+        with urlopen(f"{server.base_url}/api/blocks/{key}/assets/{served(rendered, 'assets/js/block_modal.js')}", timeout=5) as response:
             block_modal_js = response.read().decode("utf-8")
         expect("Aucun run actif" in block_modal_js, "Modal JS must warn when no active runtime receives the recording.")
-        node_card_rendered = http_json(server.base_url, "/api/blocks/audio_record/node-card", method="POST", payload={"node": node})
+        node_card_rendered = surface_payload(server, model, node, "node_card")
         node_card_assets = node_card_rendered.get("assets") or []
-        expect(
-            {"kind": "js", "path": "assets/js/node_card.js"} in node_card_assets,
-            "Audio node card must declare its press-and-hold JS asset.",
-        )
-        with urlopen(f"{server.base_url}/api/blocks/audio_record/assets/assets/js/node_card.js", timeout=5) as response:
+        with urlopen(f"{server.base_url}/api/blocks/{key}/assets/{served(node_card_rendered, 'assets/js/node_card.js')}", timeout=5) as response:
             node_card_js = response.read().decode("utf-8")
         expect("data-audio-record-card-hold" in node_card_js, "Node-card JS must bind the card hold button.")
-        expect("audio_recordNodeCard" in node_card_js, "Node-card JS must register with the framework node-card registry suffix.")
+        expect("export function mount" in node_card_js, "Le module carte doit exporter son point de montage.")
         expect("Run absent" in node_card_js, "Node-card JS must warn when no active runtime receives the recording.")
 
         applied = http_json(

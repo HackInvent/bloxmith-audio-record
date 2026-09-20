@@ -1,8 +1,8 @@
-.audio-record-mini-card {
+[data-block-release="audio_record@0.1.0"] .audio-record-mini-card {
   gap: 4px;
 }
 
-.audio-record-mini-card span {
+[data-block-release="audio_record@0.1.0"] .audio-record-mini-card span {
   max-width: 100%;
   overflow: hidden;
   color: rgba(15, 23, 42, 0.62);

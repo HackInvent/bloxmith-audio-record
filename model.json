@@ -1,7 +1,9 @@
 {
   "kind": "audio_record",
   "version": "0.1.0",
-  "bloxsmith_compatibility": ["1.0.9"],
+  "bloxsmith_compatibility": [
+    "1.0.9"
+  ],
   "tested_with_bloxsmith": "1.0.9",
   "title": "Audio Record",
   "ports": {
@@ -11,14 +13,21 @@
         "id": 1,
         "name": "audio_path",
         "title": "Audio",
-        "emits": ["file/path", "audio/*", "message/*"],
+        "emits": [
+          "file/path",
+          "audio/*",
+          "message/*"
+        ],
         "multiplicity": "many"
       },
       {
         "id": 2,
         "name": "metadata",
         "title": "Metadata",
-        "emits": ["application/json", "message/*"],
+        "emits": [
+          "application/json",
+          "message/*"
+        ],
         "multiplicity": "many"
       }
     ]
@@ -41,5 +50,51 @@
     "active_worker": true,
     "generic_source": true,
     "centralized_executor": "generic"
+  },
+  "ui_assets": {
+    "modal": [
+      {
+        "kind": "css",
+        "path": "assets/css/block_ui.css"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/recorder.js"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/block_modal.js"
+      }
+    ],
+    "inspector_panel": [
+      {
+        "kind": "css",
+        "path": "assets/css/block_ui.css"
+      }
+    ],
+    "node_card": [
+      {
+        "kind": "css",
+        "path": "assets/css/block_ui.css"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/recorder.js"
+      },
+      {
+        "kind": "js",
+        "path": "assets/js/node_card.js"
+      }
+    ],
+    "mini_node_card": [
+      {
+        "kind": "css",
+        "path": "assets/css/block_ui.css"
+      },
+      {
+        "kind": "css",
+        "path": "mini/node_card.css"
+      }
+    ]
   }
 }

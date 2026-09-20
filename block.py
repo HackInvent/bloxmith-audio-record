@@ -73,37 +73,6 @@ class AudioRecordBlock(BlockDefinition):
 
     kind = "audio_record"
 
-    def ui_assets(self, surface: str = "modal") -> list[dict[str, str]]:
-        """Return block-owned assets for each Audio Record UI surface.
-
-        Args:
-            surface: Requested UI surface name.
-
-        Returns:
-            Declared CSS/JS assets served by the generic block UI pipeline.
-        """
-
-        if surface == "modal":
-            return [
-                {"kind": "css", "path": "assets/css/block_ui.css"},
-                {"kind": "js", "path": "assets/js/recorder.js"},
-                {"kind": "js", "path": "assets/js/block_modal.js"},
-            ]
-        if surface == "inspector_panel":
-            return [{"kind": "css", "path": "assets/css/block_ui.css"}]
-        if surface == "node_card":
-            return [
-                {"kind": "css", "path": "assets/css/block_ui.css"},
-                {"kind": "js", "path": "assets/js/recorder.js"},
-                {"kind": "js", "path": "assets/js/node_card.js"},
-            ]
-        if surface == "mini_node_card":
-            return [
-                {"kind": "css", "path": "assets/css/block_ui.css"},
-                {"kind": "css", "path": "mini/node_card.css"},
-            ]
-        return []
-
     def render_node_card(self, *, node: dict[str, Any], payload: dict[str, Any] | None = None) -> dict[str, Any]:
         """Render the Audio Record canvas card body.
 
