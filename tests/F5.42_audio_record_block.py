@@ -161,12 +161,12 @@ def main() -> None:
 
         failed = block.execute_runtime(context(root_dir, ""))
         expect(failed.status == "failed", "Without browser audio, the block must fail cleanly.")
-        expect("Aucun audio navigateur" in failed.error, "The error must ask for a browser audio capture.")
+        expect("No browser audio captured" in failed.error, "The error must ask for a browser audio capture.")
 
     node = block.build_node_payload(node_id="audio-record-ui")
     card = block.render_node_card(node=node)
     expect("Audio" in card["html"], "The node card must render the Audio block.")
-    expect("Aucun audio" in card["html"], "The node card must show no latest audio by default.")
+    expect("No audio" in card["html"], "The node card must show no latest audio by default.")
     expect("data-audio-record-card-hold" in card["html"], "The node card must expose a press-and-hold record button.")
     mini_card = block.render_mini_node_card(node=node)
     expect("audio-record-mini-card" in mini_card["html"], "The mini-card must be rendered by the block.")
@@ -197,7 +197,7 @@ def main() -> None:
         expect('applyAction("save_browser_audio"' in recorder_body, "Recorder helper must call the block UI action.")
         with urlopen(f"{server.base_url}/api/blocks/{key}/assets/{served(rendered, 'assets/js/block_modal.js')}", timeout=5) as response:
             block_modal_js = response.read().decode("utf-8")
-        expect("Aucun run actif" in block_modal_js, "Modal JS must warn when no active runtime receives the recording.")
+        expect("No active run" in block_modal_js, "Modal JS must warn when no active runtime receives the recording.")
         node_card_rendered = surface_payload(server, model, node, "node_card")
         node_card_assets = node_card_rendered.get("assets") or []
         with urlopen(f"{server.base_url}/api/blocks/{key}/assets/{served(node_card_rendered, 'assets/js/node_card.js')}", timeout=5) as response:

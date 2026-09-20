@@ -19,7 +19,7 @@ function runtimePublicationWarning(result) {
     return "";
   }
   if (runtimeResult.skipped && runtimeResult.reason === "no_active_run") {
-    return "Aucun run actif: audio enregistre, output non envoye.";
+    return "No active run: audio recorded, output not sent.";
   }
   if (runtimeResult.skipped) {
     return "Audio enregistre, publication runtime ignoree.";

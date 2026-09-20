@@ -85,7 +85,7 @@ export function createRecorder(options = {}) {
 
   async function save(blob) {
     if (!blob || blob.size <= 0) {
-      status("Aucun audio capture.");
+      status("No audio captured.");
       return null;
     }
     status("Enregistrement de l'audio...");
