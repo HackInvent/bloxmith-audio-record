@@ -91,7 +91,7 @@ class AudioRecordBlock(BlockDefinition):
             node_classes=["audio-record-node"],
             replacements={
                 "title": node.get("title") or self.default_title(),
-                "latest_audio": self._short_path(config["latest_audio_path"]) or "No audio",
+                "latest_audio": self._short_path(config["latest_audio_path"]) or self.translate("block.audio_record.no_audio", fallback="No audio"),
                 "format": config["target_format"],
                 "duration": self._duration_label(config["latest_audio_duration_ms"]),
                 "output_dir": escape(config["output_dir"], quote=True),
@@ -166,7 +166,8 @@ class AudioRecordBlock(BlockDefinition):
         ]
         output_path = self._resolve_existing_audio_path(context.root_dir, config["latest_audio_path"])
         if output_path is None:
-            error = "No browser audio captured. Open the block modal and record audio."
+            error = self.translate("block.audio_record.error_no_browser_audio",
+                fallback="No browser audio captured. Open the block modal and record audio.")
             logs.append(f"[audio-record-error] {context.node_id}: {error}")
             return self._failed(error, logs)
 
@@ -246,7 +247,7 @@ class AudioRecordBlock(BlockDefinition):
         """Return the latest saved audio path for runtime previews."""
 
         config = self._runtime_config(getattr(node, "config", {}) or {})
-        return config["latest_audio_path"] or "No browser audio"
+        return config["latest_audio_path"] or self.translate("block.audio_record.no_browser_audio", fallback="No browser audio")
 
     def _handle_browser_audio_action(self, *, node: dict[str, Any], values: dict[str, Any]) -> dict[str, Any]:
         """Persist a browser-submitted audio blob and return a node config patch."""
@@ -442,7 +443,7 @@ class AudioRecordBlock(BlockDefinition):
             "target_format_m4a_selected": "selected" if config["target_format"] == "m4a" else "",
             "filename_template": escape(config["filename_template"], quote=True),
             "max_duration_sec": str(config["max_duration_sec"]),
-            "latest_audio_path": escape(config["latest_audio_path"] or "No audio recorded.", quote=True),
+            "latest_audio_path": escape(config["latest_audio_path"] or self.translate("block.audio_record.no_audio_recorded", fallback="No audio recorded."), quote=True),
             "latest_audio_value": escape(config["latest_audio_path"], quote=True),
             "latest_audio_hidden": "hidden" if not config["latest_audio_path"] else "",
             "latest_audio_at": escape(config["latest_audio_at"] or "-", quote=True),

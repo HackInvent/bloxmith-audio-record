@@ -9,74 +9,74 @@
       <span class="inspector-node-tag">{{ node_tag }}</span>
     </div>
     <div class="inspector-tabs">
-      <button class="inspector-tab {{ general_active }}" data-inspector-tab="general" type="button">General</button>
-      <button class="inspector-tab {{ ports_active }} {{ ports_tab_hidden }}" data-inspector-tab="ports" type="button" {{ ports_tab_disabled }}>Ports</button>
+      <button class="inspector-tab {{ general_active }}" data-inspector-tab="general" type="button" data-i18n="ui.block_kit.general">General</button>
+      <button class="inspector-tab {{ ports_active }} {{ ports_tab_hidden }}" data-inspector-tab="ports" type="button" {{ ports_tab_disabled }} data-i18n="ui.block_kit.ports">Ports</button>
     </div>
   </div>
 
   <div class="inspector-view {{ general_hidden }}" data-inspector-panel-tab="general">
     <div class="field-group {{ title_hidden }}">
-      <label>Node name</label>
+      <label data-i18n="ui.block_kit.node_name">Node name</label>
       <input data-node-title-input type="text" placeholder="{{ node_title_placeholder }}" value="{{ node_title }}" />
     </div>
     <div class="inspector-actions {{ actions_hidden }}">
-      <button class="ghost-btn {{ duplicate_hidden }}" data-block-action="duplicate" type="button">Duplicate</button>
-      <button class="danger-btn {{ delete_hidden }}" data-block-action="delete" type="button">Delete the block</button>
+      <button class="ghost-btn {{ duplicate_hidden }}" data-block-action="duplicate" type="button" data-i18n="ui.block_kit.duplicate">Duplicate</button>
+      <button class="danger-btn {{ delete_hidden }}" data-block-action="delete" type="button" data-i18n="ui.block_kit.delete_block">Delete the block</button>
     </div>
-    <p class="inspector-copy">
+    <p class="inspector-copy" data-i18n="block.audio_record.inspector_hint">
       Records audio from the browser microphone through the modal, then publishes the last captured file.
     </p>
     <div class="field-group">
-      <label>Output folder</label>
+      <label data-i18n="block.audio_record.output_folder_label">Output folder</label>
       <input data-block-config-field="output_dir" type="text" value="{{ output_dir }}" placeholder="exports/audio" spellcheck="false" />
     </div>
     <div class="field-grid">
       <div class="field-group">
-        <label>Format cible</label>
+        <label data-i18n="block.audio_record.target_format_label">Target format</label>
         <select data-block-config-field="target_format">
-          <option value="native" {{ target_format_native_selected }}>Natif</option>
-          <option value="webm" {{ target_format_webm_selected }}>WebM</option>
-          <option value="mp3" {{ target_format_mp3_selected }}>MP3</option>
+          <option value="native" {{ target_format_native_selected }} data-i18n="block.audio_record.format_native">Native</option>
+          <option value="webm" {{ target_format_webm_selected }} data-i18n="block.audio_record.format_webm">WebM</option>
+          <option value="mp3" {{ target_format_mp3_selected }} data-i18n="block.audio_record.format_mp3">MP3</option>
           <option value="m4a" {{ target_format_m4a_selected }}>M4A</option>
         </select>
       </div>
       <div class="field-group">
-        <label>Duree max (s)</label>
+        <label data-i18n="block.audio_record.max_duration_label">Maximum duration (s)</label>
         <input data-block-config-field="max_duration_sec" data-block-value-type="integer" type="number" min="1" max="3600" step="1" value="{{ max_duration_sec }}" />
       </div>
     </div>
     <div class="field-group">
-      <label>File name</label>
+      <label data-i18n="block.audio_record.filename_label">File name</label>
       <input data-block-config-field="filename_template" type="text" value="{{ filename_template }}" placeholder="audio_{node_id}_{timestamp}" spellcheck="false" />
     </div>
     <div class="field-group {{ latest_audio_hidden }}">
-      <label>Dernier audio</label>
+      <label data-i18n="block.audio_record.latest_audio_label">Latest audio</label>
       <input readonly type="text" value="{{ latest_audio_value }}" spellcheck="false" />
     </div>
     <div class="field-group {{ latest_audio_hidden }}">
-      <label>Details</label>
+      <label data-i18n="block.audio_record.details_label">Details</label>
       <input readonly type="text" value="{{ latest_audio_duration }} - {{ latest_audio_size }} - {{ latest_audio_at }}" spellcheck="false" />
     </div>
     <div class="inspector-actions">
-      <button class="solid-btn" data-block-apply type="button" disabled>Apply</button>
+      <button class="solid-btn" data-block-apply type="button" disabled data-i18n="ui.block_kit.apply">Apply</button>
     </div>
   </div>
 
   <div class="inspector-view {{ ports_hidden }}" data-inspector-panel-tab="ports">
     <div class="ports-editor-section">
       <div class="ports-editor-header">
-        <span class="group-label">Inputs</span>
+        <span class="group-label" data-i18n="ui.block_kit.inputs">Inputs</span>
         <span class="ports-editor-actions">
           <button class="ghost-btn add-port-btn {{ add_mcp_input_hidden }}" data-add-mcp-input-port type="button" {{ add_mcp_input_disabled }}>+ MCP</button>
-          <button class="ghost-btn add-port-btn {{ add_input_hidden }}" data-add-input-port type="button" {{ add_input_disabled }}>+ Add an input</button>
+          <button class="ghost-btn add-port-btn {{ add_input_hidden }}" data-add-input-port type="button" {{ add_input_disabled }} data-i18n="ui.block_kit.add_input">+ Add an input</button>
         </span>
       </div>
       <div class="ports-editor-list">{{ inputs_html }}</div>
     </div>
     <div class="ports-editor-section">
       <div class="ports-editor-header">
-        <span class="group-label">Outputs</span>
-        <button class="ghost-btn add-port-btn {{ add_output_hidden }}" data-add-output-port type="button" {{ add_output_disabled }}>+ Add an output</button>
+        <span class="group-label" data-i18n="ui.block_kit.outputs">Outputs</span>
+        <button class="ghost-btn add-port-btn {{ add_output_hidden }}" data-add-output-port type="button" {{ add_output_disabled }} data-i18n="ui.block_kit.add_output">+ Add an output</button>
       </div>
       <div class="ports-editor-list">{{ outputs_html }}</div>
     </div>

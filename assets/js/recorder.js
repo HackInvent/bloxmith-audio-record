@@ -1,4 +1,18 @@
 /**
+ * Resolve one block text in the active language, from the catalog of the owning release.
+ *
+ * @param {HTMLElement} element - Element inside the mounted surface, carrying its release.
+ * @param {string} key - Block catalog key.
+ * @param {object} params - Placeholder values.
+ * @param {string} fallback - Authored English text.
+ * @returns {string} Localized text.
+ */
+function text(element, key, params, fallback) {
+  const release = element?.closest?.("[data-block-release]")?.dataset?.blockRelease || "";
+  return window.CWI18n?.t?.(key, params, fallback, release) ?? fallback;
+}
+
+/**
  * Role: Provides reusable browser microphone recording helpers for Audio Record surfaces.
  * File Name: recorder.js
  * Author: Alexandre EL
@@ -35,7 +49,7 @@ function blobToDataUrl(blob) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = () => reject(reader.error || new Error("Lecture audio impossible."));
+    reader.onerror = () => reject(reader.error || new Error(text(document.body, "block.audio_record.read_failed", {}, "Reading the audio failed.")));
     reader.readAsDataURL(blob);
   });
 }
@@ -85,10 +99,10 @@ export function createRecorder(options = {}) {
 
   async function save(blob) {
     if (!blob || blob.size <= 0) {
-      status("No audio captured.");
+      status(text(document.body, "block.audio_record.no_audio_captured", {}, "No audio captured."));
       return null;
     }
-    status("Enregistrement de l'audio...");
+    status(text(document.body, "block.audio_record.saving_audio", {}, "Saving the audio..."));
     const durationMs = state.startedAt ? Date.now() - state.startedAt : 0;
     const dataUrl = await blobToDataUrl(blob);
     if (typeof options.applyAction !== "function") {
@@ -117,14 +131,14 @@ export function createRecorder(options = {}) {
       return;
     }
     if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
-      status("Enregistrement audio navigateur indisponible.");
+      status(text(document.body, "block.audio_record.browser_recording_unavailable", {}, "Browser audio recording is unavailable."));
       return;
     }
     state.chunks = [];
     state.startedAt = Date.now();
     state.starting = true;
     state.mimeType = preferredMimeType();
-    status("Ouverture du micro...");
+    status(text(document.body, "block.audio_record.opening_microphone", {}, "Opening the microphone..."));
     try {
       state.stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
       const recorder = new MediaRecorder(state.stream, state.mimeType ? { mimeType: state.mimeType } : {});
@@ -138,20 +152,20 @@ export function createRecorder(options = {}) {
         const blob = new Blob(state.chunks, { type: recorder.mimeType || state.mimeType || "audio/webm" });
         cleanup();
         void save(blob).catch((error) => {
-          const message = error instanceof Error ? error.message : String(error || "erreur inconnue");
-          status(`Enregistrement impossible: ${message}`);
+          const message = error instanceof Error ? error.message : String(error || "unknown error");
+          status(text(document.body, "block.audio_record.record_failed", { error: message }, `Recording failed: ${message}`));
           options.onError?.(error, message);
         });
       });
       recorder.start();
       state.starting = false;
       options.onStart?.();
-      status("Parlez maintenant. Relachez pour terminer.");
+      status(text(document.body, "block.audio_record.speak_now", {}, "Speak now. Release to finish."));
       state.maxDurationTimer = window.setTimeout(() => stop(), maxDurationSec() * 1000);
     } catch (error) {
       cleanup();
-      const message = error instanceof Error ? error.message : String(error || "erreur inconnue");
-      status(`Micro inaccessible: ${message}`);
+      const message = error instanceof Error ? error.message : String(error || "unknown error");
+      status(text(document.body, "block.audio_record.microphone_unreachable", { error: message }, `Microphone unreachable: ${message}`));
       options.onError?.(error, message);
     }
   }

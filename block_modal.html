@@ -1,80 +1,80 @@
 <div class="modal-panel cw-audio-record-modal" role="dialog" aria-modal="true" aria-labelledby="{{ node_id }}BlockModalTitle" data-generic-block-modal-root data-block-runtime-refresh="autonomous" data-node-id="{{ node_id }}" data-node-kind="{{ node_kind }}">
   <div class="modal-header">
     <div>
-      <span class="panel-kicker">Bloc {{ node_kind_title }}</span>
+      <span class="panel-kicker"><span data-i18n="ui.block_kit.block">Block</span> {{ node_kind_title }}</span>
       <h2 id="{{ node_id }}BlockModalTitle">{{ node_title }}</h2>
     </div>
     <div class="modal-actions">
-      <button class="ghost-btn" data-close-block-modal type="button">Close</button>
+      <button class="ghost-btn" data-close-block-modal type="button" data-i18n="ui.block_kit.close">Close</button>
     </div>
   </div>
 
   <div class="audio-record-modal-body">
     <section class="audio-record-modal-section">
-      <div class="ports-editor-header"><span class="group-label">Capture audio</span></div>
-      <p class="inspector-copy">
+      <div class="ports-editor-header"><span class="group-label" data-i18n="block.audio_record.capture_section">Audio capture</span></div>
+      <p class="inspector-copy" data-i18n="block.audio_record.capture_hint">
         Hold the button to speak. The browser captures the microphone, then the block writes the file on the server.
       </p>
       <div class="audio-record-capture" data-audio-record-capture>
-        <button class="solid-btn audio-record-talk-button" data-audio-record-hold type="button">Maintenir pour parler</button>
-        <button class="ghost-btn" data-audio-record-stop type="button" disabled>Arreter</button>
+        <button class="solid-btn audio-record-talk-button" data-audio-record-hold type="button" data-i18n="block.audio_record.hold_to_speak">Hold to speak</button>
+        <button class="ghost-btn" data-audio-record-stop type="button" disabled data-i18n="block.audio_record.stop">Stop</button>
         <p class="inspector-copy audio-record-status" data-audio-record-status>{{ latest_audio_path }}</p>
       </div>
     </section>
 
     <section class="audio-record-modal-section">
-      <div class="ports-editor-header"><span class="group-label">Parametres</span></div>
+      <div class="ports-editor-header"><span class="group-label" data-i18n="block.audio_record.settings_section">Settings</span></div>
       <div class="field-grid">
         <div class="field-group">
-          <label>Output folder</label>
+          <label data-i18n="block.audio_record.output_folder_label">Output folder</label>
           <input data-block-config-field="output_dir" type="text" value="{{ output_dir }}" placeholder="exports/audio" spellcheck="false" />
         </div>
         <div class="field-group">
-          <label>Format cible</label>
+          <label data-i18n="block.audio_record.target_format_label">Target format</label>
           <select data-block-config-field="target_format">
-            <option value="native" {{ target_format_native_selected }}>Natif navigateur</option>
-            <option value="webm" {{ target_format_webm_selected }}>WebM</option>
-            <option value="mp3" {{ target_format_mp3_selected }}>MP3 via ffmpeg</option>
-            <option value="m4a" {{ target_format_m4a_selected }}>M4A via ffmpeg</option>
+            <option value="native" {{ target_format_native_selected }} data-i18n="block.audio_record.format_native_browser">Browser native</option>
+            <option value="webm" {{ target_format_webm_selected }} data-i18n="block.audio_record.format_webm">WebM</option>
+            <option value="mp3" {{ target_format_mp3_selected }} data-i18n="block.audio_record.format_mp3_ffmpeg">MP3 through ffmpeg</option>
+            <option value="m4a" {{ target_format_m4a_selected }} data-i18n="block.audio_record.format_m4a_ffmpeg">M4A through ffmpeg</option>
           </select>
         </div>
         <div class="field-group">
-          <label>File name</label>
+          <label data-i18n="block.audio_record.filename_label">File name</label>
           <input data-block-config-field="filename_template" type="text" value="{{ filename_template }}" placeholder="audio_{node_id}_{timestamp}" spellcheck="false" />
         </div>
         <div class="field-group">
-          <label>Duree max (s)</label>
+          <label data-i18n="block.audio_record.max_duration_label">Maximum duration (s)</label>
           <input data-block-config-field="max_duration_sec" data-block-value-type="integer" type="number" min="1" max="3600" step="1" value="{{ max_duration_sec }}" />
         </div>
         <div class="field-group {{ latest_audio_hidden }}">
-          <label>Dernier audio</label>
+          <label data-i18n="block.audio_record.latest_audio_label">Latest audio</label>
           <input readonly type="text" value="{{ latest_audio_value }}" spellcheck="false" />
         </div>
         <div class="field-group {{ latest_audio_hidden }}">
-          <label>Details</label>
+          <label data-i18n="block.audio_record.details_label">Details</label>
           <input readonly type="text" value="{{ latest_audio_duration }} - {{ latest_audio_size }} - {{ latest_audio_at }}" spellcheck="false" />
         </div>
       </div>
     </section>
 
     <section class="audio-record-modal-section">
-      <div class="ports-editor-header"><span class="group-label">Identite</span></div>
+      <div class="ports-editor-header"><span class="group-label" data-i18n="ui.block_kit.identity">Identity</span></div>
       {{ title_field_html }}
     </section>
 
     <section class="audio-record-modal-section">
-      <div class="ports-editor-header"><span class="group-label">Ports</span></div>
+      <div class="ports-editor-header"><span class="group-label" data-i18n="ui.block_kit.ports">Ports</span></div>
       {{ ports_html }}
     </section>
 
     <section class="audio-record-modal-section">
-      <div class="ports-editor-header"><span class="group-label">Dernier etat</span></div>
+      <div class="ports-editor-header"><span class="group-label" data-i18n="ui.block_kit.last_state">Last state</span></div>
       {{ runtime_html }}
     </section>
   </div>
 
   <div class="modal-actions audio-record-modal-footer">
-    <button class="ghost-btn" data-close-block-modal type="button">Cancel</button>
-    <button class="solid-btn" data-block-apply type="button" disabled>Apply</button>
+    <button class="ghost-btn" data-close-block-modal type="button" data-i18n="ui.block_kit.cancel">Cancel</button>
+    <button class="solid-btn" data-block-apply type="button" disabled data-i18n="ui.block_kit.apply">Apply</button>
   </div>
 </div>

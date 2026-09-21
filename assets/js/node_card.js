@@ -19,7 +19,7 @@ function runtimePublicationWarning(result) {
     return "";
   }
   if (runtimeResult.skipped && runtimeResult.reason === "no_active_run") {
-    return "No active run: audio recorded, output not sent.";
+    return text(document.body, "block.audio_record.no_active_run", {}, "No active run: audio recorded, output not sent.");
   }
   if (runtimeResult.skipped) {
     return "Audio enregistre, publication runtime ignoree.";
@@ -74,6 +74,20 @@ function setStatus(root, message) {
  * @param {HTMLElement} root - Mounted node-card block root.
  * @param {object} api - Generic block UI API.
  */
+/**
+ * Resolve one block text in the active language, from the catalog of the owning release.
+ *
+ * @param {HTMLElement} element - Element inside the mounted surface, carrying its release.
+ * @param {string} key - Block catalog key.
+ * @param {object} params - Placeholder values.
+ * @param {string} fallback - Authored English text.
+ * @returns {string} Localized text.
+ */
+function text(element, key, params, fallback) {
+  const release = element?.closest?.("[data-block-release]")?.dataset?.blockRelease || "";
+  return window.CWI18n?.t?.(key, params, fallback, release) ?? fallback;
+}
+
 export function mount(root, api) {
   const button = root.querySelector("[data-audio-record-card-hold]");
   if (!(button instanceof HTMLButtonElement)) {
@@ -87,14 +101,14 @@ export function mount(root, api) {
     onStatus: (message) => setStatus(root, message),
     onStart: () => {
       button.classList.add("is-recording");
-      button.textContent = "Rec...";
+      button.textContent = text(button, "block.audio_record.card_recording", {}, "Rec...");
       if (!pointerActive) {
         recorder.stop();
       }
     },
     onStop: () => {
       button.classList.remove("is-recording");
-      button.textContent = "Maintenir";
+      button.textContent = text(button, "block.audio_record.card_hold", {}, "Hold");
     },
     onSaved: (result) => {
       const savedPath = String(result.saved_path || result.node_patch?.config?.latest_audio_path || "");

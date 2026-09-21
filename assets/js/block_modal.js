@@ -19,7 +19,7 @@ function runtimePublicationWarning(result) {
     return "";
   }
   if (runtimeResult.skipped && runtimeResult.reason === "no_active_run") {
-    return "No active run: audio recorded, output not sent.";
+    return text(document.body, "block.audio_record.no_active_run", {}, "No active run: audio recorded, output not sent.");
   }
   if (runtimeResult.skipped) {
     return "Audio enregistre, publication runtime ignoree.";
@@ -82,7 +82,7 @@ function setStatus(root, message) {
 function resetButtons(holdButton, stopButton) {
   holdButton.disabled = false;
   holdButton.classList.remove("is-recording");
-  holdButton.textContent = "Maintenir pour parler";
+  holdButton.textContent = text(holdButton, "block.audio_record.hold_to_speak", {}, "Hold to speak");
   if (stopButton instanceof HTMLButtonElement) {
     stopButton.disabled = true;
   }
@@ -94,6 +94,20 @@ function resetButtons(holdButton, stopButton) {
  * @param {HTMLElement} root - Mounted modal root.
  * @param {object} api - Generic block UI API.
  */
+/**
+ * Resolve one block text in the active language, from the catalog of the owning release.
+ *
+ * @param {HTMLElement} element - Element inside the mounted surface, carrying its release.
+ * @param {string} key - Block catalog key.
+ * @param {object} params - Placeholder values.
+ * @param {string} fallback - Authored English text.
+ * @returns {string} Localized text.
+ */
+function text(element, key, params, fallback) {
+  const release = element?.closest?.("[data-block-release]")?.dataset?.blockRelease || "";
+  return window.CWI18n?.t?.(key, params, fallback, release) ?? fallback;
+}
+
 export function mount(root, api) {
   const holdButton = root.querySelector("[data-audio-record-hold]");
   const stopButton = root.querySelector("[data-audio-record-stop]");
@@ -108,7 +122,7 @@ export function mount(root, api) {
     onStatus: (message) => setStatus(root, message),
     onStart: () => {
       holdButton.classList.add("is-recording");
-      holdButton.textContent = "Enregistrement...";
+      holdButton.textContent = text(holdButton, "block.audio_record.recording", {}, "Recording...");
       if (stopButton instanceof HTMLButtonElement) {
         stopButton.disabled = false;
       }
@@ -134,7 +148,7 @@ export function mount(root, api) {
     event.preventDefault();
     pointerActive = true;
     holdButton.classList.add("is-recording");
-    holdButton.textContent = "Autorisation micro...";
+    holdButton.textContent = text(holdButton, "block.audio_record.microphone_permission", {}, "Microphone permission...");
     if (stopButton instanceof HTMLButtonElement) {
       stopButton.disabled = false;
     }
