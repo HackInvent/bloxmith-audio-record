@@ -1,3 +1,5 @@
+import { withProperties } from "./properties.js";
+
 /**
  * Role: Mounts browser microphone recording controls for the Audio Record modal.
  * File Name: block_modal.js
@@ -108,7 +110,7 @@ function text(element, key, params, fallback) {
   return window.CWI18n?.t?.(key, params, fallback, release) ?? fallback;
 }
 
-export function mount(root, api) {
+function mountOwned(root, api) {
   const holdButton = root.querySelector("[data-audio-record-hold]");
   const stopButton = root.querySelector("[data-audio-record-stop]");
   if (!(holdButton instanceof HTMLButtonElement)) {
@@ -184,4 +186,9 @@ export function mount(root, api) {
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
+}
+
+/** Keep the block behavior and add properties-only accessibility. */
+export function mount(root, ...args) {
+  return withProperties(mountOwned).call(this, root, ...args);
 }
