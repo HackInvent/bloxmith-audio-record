@@ -10,9 +10,6 @@ Verified BloxSmith versions: **1.0.9** (bundled-block tests; see [test evidence]
 
 [![AUDIO RECORD — Records the operator's browser microphone audio and saves a project-local audio file.](media/thumbnail.webp)](media/cover.png)
 
-*Concept illustration. [Artwork and generation prompt](media/README.md).*
-
-
 `audio_record` records microphone audio from the operator browser and stores the latest capture as a project-local file. It is a source block: during a run it publishes the path of the last saved audio file plus JSON metadata.
 
 ## Functional behavior
