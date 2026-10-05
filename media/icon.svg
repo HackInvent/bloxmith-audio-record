@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+     fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+     stroke-linejoin="round" role="img" aria-label="Audio Record">
+  <title>Audio Record</title>
+  <path d="M4.4 9.4v5.2M8 6.4v11.2M11.6 9v6"/>
+  <circle cx="17.8" cy="12" r="3.4"/>
+  <circle cx="17.8" cy="12" r="1.7" fill="currentColor" stroke="none"/>
+</svg>
